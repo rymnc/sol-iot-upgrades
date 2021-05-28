@@ -1,2 +1,3 @@
-# typescript-hardhat-template
-A typescript+hardhat template, that can be extended to project-specific use cases
+# sol-iot-upgrades
+
+Perform OTA Updates to IoT devices backed by decentralized storage+the blockchain
