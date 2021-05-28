@@ -2,9 +2,12 @@ import { config as dotenvCfg } from "dotenv";
 dotenvCfg();
 
 import { HardhatUserConfig, task } from "hardhat/config";
-import "@nomiclabs/hardhat-waffle";
-import "@nomiclabs/hardhat-ethers";
+
 import "@typechain/hardhat";
+import "@nomiclabs/hardhat-waffle";
+import "@openzeppelin/hardhat-upgrades";
+import "@nomiclabs/hardhat-ethers";
+
 import { NetworkUserConfig } from "hardhat/types";
 
 task("accounts", "Prints the list of accounts", async (args, hre) => {
