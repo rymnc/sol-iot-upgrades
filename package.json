@@ -6,10 +6,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "npx hardhat test",
-    "deploy": "npx hardhat deploy --export-all deployments/artifacts.json --network",
-    "node": "npx hardhat node --export-all deployments/artifacts.json",
-    "compile": "npx hardhat compile"
+    "hh:test": "npx hardhat test",
+    "hh:deploy": "npx hardhat deploy --export-all deployments/artifacts.json --network",
+    "hh:node": "npx hardhat node --export-all deployments/artifacts.json",
+    "hh:compile": "npx hardhat compile"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.0.0",
