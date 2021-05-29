@@ -1,32 +1,26 @@
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { deployments, ethers, getNamedAccounts } from "hardhat";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ethers } from "hardhat";
-import { Upgrade, Upgrade__factory } from "../types";
+import { Upgrade } from "../types";
 
 chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
-let testOwnableF: Upgrade__factory;
-let addr1: SignerWithAddress;
-let addr2: SignerWithAddress;
-let owner: SignerWithAddress;
+let sampleHash: string = ethers.utils.formatBytes32String("foobar");
+let manager: string;
+let deviceOne: string;
+let aux: string;
 let contract: Upgrade;
 
-let sampleHash: string = ethers.utils.formatBytes32String("foobar");
-
 describe("Upgrade", () => {
-  beforeEach(async () => {
-    testOwnableF = (await ethers.getContractFactory(
-      "Upgrade"
-    )) as Upgrade__factory;
-    [owner, addr1, addr2] = await ethers.getSigners();
-    contract = await testOwnableF.deploy(owner.address, 0, 0);
+  before(async () => {
+    ({ manager, deviceOne, aux } = await getNamedAccounts());
   });
 
-  afterEach(() => {
-    contract.off("NewUpgrade", () => {});
+  beforeEach(async () => {
+    await deployments.fixture("Upgrade");
+    contract = (await ethers.getContract("Upgrade", manager)) as Upgrade;
   });
 
   it("Should bump version", async () => {
@@ -47,16 +41,14 @@ describe("Upgrade", () => {
   });
 
   it("Should add to allowList", async () => {
-    const auxAddress = addr1.address;
-    expect(await contract.isAllowed(auxAddress)).to.eql(false);
-    await contract.addToAllowlist(auxAddress);
-    expect(await contract.isAllowed(auxAddress)).to.eql(true);
+    expect(await contract.isAllowed(aux)).to.eql(false);
+    await contract.addToAllowlist(aux);
+    expect(await contract.isAllowed(aux)).to.eql(true);
   });
 
   it("Should add a device", async () => {
-    const deviceAddress = addr2.address;
-    expect(await contract.isDevice(deviceAddress)).to.eql(false);
-    await contract.addDevice(deviceAddress, sampleHash);
-    expect(await contract.isDevice(deviceAddress)).to.eql(true);
+    expect(await contract.isDevice(deviceOne)).to.eql(false);
+    await contract.addDevice(deviceOne, sampleHash);
+    expect(await contract.isDevice(deviceOne)).to.eql(true);
   });
 });

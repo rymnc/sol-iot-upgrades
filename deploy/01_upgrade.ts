@@ -1,21 +1,19 @@
-import { ethers } from "hardhat";
-import { Upgrade, Upgrade__factory } from "../types";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
 
-async function main() {
-  const UpgradeFactory = (await ethers.getContractFactory(
-    "Upgrade"
-  )) as Upgrade__factory;
-  const [owner] = await ethers.getSigners();
-  const upgrade = (await UpgradeFactory.deploy(owner.address, 0, 0)) as Upgrade;
+const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+  const {
+    deployments: { deploy },
+    getNamedAccounts,
+  } = hre;
 
-  await upgrade.deployed();
-
-  console.log("Upgrade deployed to:", upgrade.address);
-}
-
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
+  const { manager } = await getNamedAccounts();
+  await deploy("Upgrade", {
+    from: manager,
+    args: [manager, 0, 0],
+    log: true,
   });
+};
+
+export default func;
+func.tags = ["Upgrade"];

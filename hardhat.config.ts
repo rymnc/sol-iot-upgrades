@@ -6,6 +6,7 @@ import { HardhatUserConfig, task } from "hardhat/config";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-waffle";
 import "@openzeppelin/hardhat-upgrades";
+import "hardhat-deploy";
 import "@nomiclabs/hardhat-ethers";
 
 import { NetworkUserConfig } from "hardhat/types";
@@ -53,10 +54,29 @@ const config: HardhatUserConfig = {
     alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
   },
   networks: {
-    hardhat: {},
+    hardhat: {
+      saveDeployments: true,
+    },
     localhost: {},
     kovan: generateNetworkCfg("kovan"),
     mainnet: generateNetworkCfg("mainnet"),
+  },
+  namedAccounts: {
+    manager: {
+      default: 0,
+      1: 0,
+      42: 0,
+    },
+    aux: {
+      default: 1,
+      1: 1,
+      42: 1,
+    },
+    deviceOne: {
+      default: 2,
+      1: 2,
+      42: 2,
+    },
   },
 };
 
