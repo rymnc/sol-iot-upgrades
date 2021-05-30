@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/rymnc/sol-iot-upgrades.git"
   },
-  "author": "rymnc <aaryamannchallani7@gmail.com> (https://aaryamann.codes/)",
+  "author": "rymnc <aaryamannchallani7@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rymnc/sol-iot-upgrades/issues"
