@@ -55,13 +55,23 @@ contract Upgrade is Ownable {
         return currentVersion[_upgradeType];
     }
 
-    function getHash(upgradeType _upgradeType)
+    function getHash(upgradeType _upgradeType, uint8 _version)
         public
         view
         onlyAllowList
         returns (bytes32)
     {
-        return version[_upgradeType][currentVersion[_upgradeType]];
+        require(currentVersion[_upgradeType] != 0);
+        return version[_upgradeType][_version];
+    }
+
+    function getLatestHash(upgradeType _upgradeType)
+        public
+        view
+        onlyAllowList
+        returns (bytes32)
+    {
+        return getHash(_upgradeType, currentVersion[_upgradeType]);
     }
 
     function isAllowed(address _address) public view returns (bool) {

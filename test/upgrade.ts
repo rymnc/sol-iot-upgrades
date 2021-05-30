@@ -31,7 +31,7 @@ describe("Upgrade", () => {
 
   it("Should return the ipfs hash", async () => {
     await contract.newUpgrade(1, sampleHash);
-    expect(await contract.getHash(1)).to.eql(sampleHash);
+    expect(await contract.getHash(1, 1)).to.eql(sampleHash);
   });
 
   it("Should emit the newUpgrade event", async () => {
@@ -50,5 +50,14 @@ describe("Upgrade", () => {
     expect(await contract.isDevice(deviceOne)).to.eql(false);
     await contract.addDevice(deviceOne, sampleHash);
     expect(await contract.isDevice(deviceOne)).to.eql(true);
+  });
+
+  it("Should return the correct hash", async () => {
+    await contract.newUpgrade(0, sampleHash);
+    const sampleHash2 = ethers.utils.formatBytes32String("footext");
+    await contract.newUpgrade(0, sampleHash2);
+    expect(await contract.getLatestHash(0)).to.eql(sampleHash2);
+    expect(await contract.getVersion(0)).to.eql(2);
+    expect(await contract.getHash(0, 1)).to.eql(sampleHash);
   });
 });

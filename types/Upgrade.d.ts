@@ -23,7 +23,8 @@ interface UpgradeInterface extends ethers.utils.Interface {
   functions: {
     "addDevice(address,bytes32)": FunctionFragment;
     "addToAllowlist(address)": FunctionFragment;
-    "getHash(uint8)": FunctionFragment;
+    "getHash(uint8,uint8)": FunctionFragment;
+    "getLatestHash(uint8)": FunctionFragment;
     "getVersion(uint8)": FunctionFragment;
     "isAllowed(address)": FunctionFragment;
     "isDevice(address)": FunctionFragment;
@@ -43,6 +44,10 @@ interface UpgradeInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getHash",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getLatestHash",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -71,6 +76,10 @@ interface UpgradeInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getHash", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getLatestHash",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getVersion", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isDevice", data: BytesLike): Result;
@@ -155,6 +164,12 @@ export class Upgrade extends BaseContract {
 
     getHash(
       _upgradeType: BigNumberish,
+      _version: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getLatestHash(
+      _upgradeType: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -198,6 +213,12 @@ export class Upgrade extends BaseContract {
 
   getHash(
     _upgradeType: BigNumberish,
+    _version: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getLatestHash(
+    _upgradeType: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -237,6 +258,12 @@ export class Upgrade extends BaseContract {
     addToAllowlist(_address: string, overrides?: CallOverrides): Promise<void>;
 
     getHash(
+      _upgradeType: BigNumberish,
+      _version: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getLatestHash(
       _upgradeType: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -310,6 +337,12 @@ export class Upgrade extends BaseContract {
 
     getHash(
       _upgradeType: BigNumberish,
+      _version: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getLatestHash(
+      _upgradeType: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -353,6 +386,12 @@ export class Upgrade extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getHash(
+      _upgradeType: BigNumberish,
+      _version: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getLatestHash(
       _upgradeType: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
