@@ -23,6 +23,7 @@ interface UpgradeInterface extends ethers.utils.Interface {
   functions: {
     "addDevice(address,bytes32)": FunctionFragment;
     "addToAllowlist(address)": FunctionFragment;
+    "firmwareId()": FunctionFragment;
     "getHash(uint8,uint8)": FunctionFragment;
     "getLatestHash(uint8)": FunctionFragment;
     "getVersion(uint8)": FunctionFragment;
@@ -41,6 +42,10 @@ interface UpgradeInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "addToAllowlist",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "firmwareId",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getHash",
@@ -75,6 +80,7 @@ interface UpgradeInterface extends ethers.utils.Interface {
     functionFragment: "addToAllowlist",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "firmwareId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getHash", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getLatestHash",
@@ -162,6 +168,8 @@ export class Upgrade extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    firmwareId(overrides?: CallOverrides): Promise<[string]>;
+
     getHash(
       _upgradeType: BigNumberish,
       _version: BigNumberish,
@@ -211,6 +219,8 @@ export class Upgrade extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  firmwareId(overrides?: CallOverrides): Promise<string>;
+
   getHash(
     _upgradeType: BigNumberish,
     _version: BigNumberish,
@@ -255,7 +265,12 @@ export class Upgrade extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    addToAllowlist(_address: string, overrides?: CallOverrides): Promise<void>;
+    addToAllowlist(
+      _address: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    firmwareId(overrides?: CallOverrides): Promise<string>;
 
     getHash(
       _upgradeType: BigNumberish,
@@ -335,6 +350,8 @@ export class Upgrade extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    firmwareId(overrides?: CallOverrides): Promise<BigNumber>;
+
     getHash(
       _upgradeType: BigNumberish,
       _version: BigNumberish,
@@ -384,6 +401,8 @@ export class Upgrade extends BaseContract {
       _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    firmwareId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getHash(
       _upgradeType: BigNumberish,

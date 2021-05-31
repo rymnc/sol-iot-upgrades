@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Upgrade is Ownable {
     address manager;
+    bytes32 public firmwareId;
 
     enum upgradeType {Major, Minor}
 
@@ -26,7 +27,8 @@ contract Upgrade is Ownable {
     constructor(
         address _owner,
         uint8 _minorVersion,
-        uint8 _majorVersion
+        uint8 _majorVersion,
+        bytes32 _firmwareId
     ) {
         manager = _owner;
         if (msg.sender != _owner) {
@@ -35,12 +37,14 @@ contract Upgrade is Ownable {
         currentVersion[upgradeType.Major] = _majorVersion;
         currentVersion[upgradeType.Minor] = _minorVersion;
         allowList[manager] = true;
+        firmwareId = _firmwareId;
     }
 
     function newUpgrade(upgradeType _upgradeType, bytes32 _ipfsHash)
         public
         onlyOwner
     {
+        require(_ipfsHash != 0, "Hash is 0");
         currentVersion[_upgradeType] += 1;
         version[_upgradeType][currentVersion[_upgradeType]] = _ipfsHash;
         emit NewUpgrade(_upgradeType, _ipfsHash);
@@ -61,7 +65,7 @@ contract Upgrade is Ownable {
         onlyAllowList
         returns (bytes32)
     {
-        require(currentVersion[_upgradeType] != 0);
+        require(getVersion(_upgradeType) != 0, "Version is 0");
         return version[_upgradeType][_version];
     }
 
@@ -83,14 +87,16 @@ contract Upgrade is Ownable {
         return false;
     }
 
-    function addToAllowlist(address _address) public onlyOwner {
+    function addToAllowlist(address _address) public onlyOwner returns (bool) {
         require(!isAllowed(_address), "Address already in allowList");
         allowList[_address] = true;
         emit NewMember(_address);
+        return true;
     }
 
     function addDevice(address _address, bytes32 publicKey) public onlyOwner {
         require(!isDevice(_address), "Device already exists");
+        require(publicKey != 0, "Hash is 0");
         device[_address] = publicKey;
         addToAllowlist(_address);
         emit NewDevice(_address, publicKey);

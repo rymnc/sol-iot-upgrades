@@ -23,6 +23,11 @@
                   "internalType": "uint8",
                   "name": "_majorVersion",
                   "type": "uint8"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "_deviceId",
+                  "type": "bytes32"
                 }
               ],
               "stateMutability": "nonpayable",
@@ -130,6 +135,43 @@
               "type": "function"
             },
             {
+              "inputs": [],
+              "name": "deviceId",
+              "outputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "",
+                  "type": "bytes32"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "enum Upgrade.upgradeType",
+                  "name": "_upgradeType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "_version",
+                  "type": "uint8"
+                }
+              ],
+              "name": "getHash",
+              "outputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "",
+                  "type": "bytes32"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
               "inputs": [
                 {
                   "internalType": "enum Upgrade.upgradeType",
@@ -137,7 +179,7 @@
                   "type": "uint8"
                 }
               ],
-              "name": "getHash",
+              "name": "getLatestHash",
               "outputs": [
                 {
                   "internalType": "bytes32",
@@ -254,6 +296,30 @@
               "name": "transferOwnership",
               "outputs": [],
               "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "enum Upgrade.upgradeType",
+                  "name": "",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "",
+                  "type": "uint8"
+                }
+              ],
+              "name": "version",
+              "outputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "",
+                  "type": "bytes32"
+                }
+              ],
+              "stateMutability": "view",
               "type": "function"
             }
           ]
