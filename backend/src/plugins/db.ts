@@ -1,5 +1,5 @@
 import fp from "fastify-plugin";
-import { PrismaClient } from "./db/index";
+import { PrismaClient } from "@prisma/client";
 
 export interface DbOptions {}
 
