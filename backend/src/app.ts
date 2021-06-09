@@ -2,6 +2,17 @@ import { join } from "path";
 import AutoLoad, { AutoloadPluginOptions } from "fastify-autoload";
 import { FastifyPluginAsync } from "fastify";
 
+declare global {
+  namespace NodeJS {
+    export interface ProcessEnv {
+      NODE_ENV: "development" | "production" | "test";
+      PINATA_KEY: string;
+      PINATA_SECRET: string;
+      JWT_SECRET: string;
+    }
+  }
+}
+
 export type AppOptions = {
   // Place your custom options for app below here.
 } & Partial<AutoloadPluginOptions>;

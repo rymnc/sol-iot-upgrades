@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "LoginHistory" ALTER COLUMN "ip" SET DATA TYPE TEXT;
